@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GraphRAGX - 管理中心 / 知识库管理</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="bg-glow bg-glow-a"></div>
+  <div class="bg-glow bg-glow-b"></div>
+  <main class="shell">
+    <header class="topbar panel">
+      <div class="brand-block">
+        <a class="brand" href="/">GraphRAGX</a>
+        <div class="brand-subtitle">Powered by Graph AI. RAG for Everything.</div>
+      </div>
+      <nav class="topnav">
+        <a href="/search">检索中心</a>
+        <a href="/scenarios/impact">业务场景</a>
+        <a class="is-active" href="/manage/projects">管理中心</a>
+      </nav>
+      <div class="actor-inline">
+        <label>Actor<input id="actorUser" value="alice" /></label>
+        <label>Role
+          <select id="actorRole">
+            <option value="admin">admin</option>
+            <option value="editor">editor</option>
+            <option value="viewer">viewer</option>
+          </select>
+        </label>
+      </div>
+    </header>
+
+    <section class="panel hero">
+      <p class="kicker">Management Center</p>
+      <h1>知识库管理</h1>
+      <p class="sub">配置知识源、触发同步、观察 ingest 任务状态。</p>
+      <div class="subtabs">
+        <a class="chip" href="/manage/projects">项目管理</a>
+        <a class="chip" href="/manage/sync">同步管理</a>
+        <a class="chip is-active" href="/manage/knowledge">知识库管理</a>
+      </div>
+    </section>
+
+    <section class="workspace single-main">
+      <article class="panel">
+        <form id="sourceForm" class="stack">
+          <h2>新增知识源</h2>
+          <label>项目
+            <select name="project_id" id="projectId" required></select>
+          </label>
+          <label>名称<input name="name" placeholder="团队手册" required /></label>
+          <label>类型
+            <select name="source_type">
+              <option value="local_dir">local_dir</option>
+              <option value="http">http</option>
+            </select>
+          </label>
+          <label>地址（本地目录 / URL）
+            <input name="source_uri" placeholder="D:\docs\team-wiki 或 https://example.com/wiki.html" required />
+          </label>
+          <label>标签（逗号分隔）
+            <input name="tags" placeholder="runbook,ops,policy" />
+          </label>
+          <button class="btn" type="submit">创建知识源</button>
+          <p id="sourceMsg" class="message"></p>
+        </form>
+
+        <h2>知识源列表</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>项目</th>
+                <th>名称</th>
+                <th>类型</th>
+                <th>地址</th>
+                <th>标签</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="sourceTableBody"></tbody>
+          </table>
+        </div>
+
+        <h2>知识任务</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Job ID</th>
+                <th>Source</th>
+                <th>状态</th>
+                <th>统计</th>
+                <th>消息</th>
+                <th>创建时间</th>
+              </tr>
+            </thead>
+            <tbody id="jobTableBody"></tbody>
+          </table>
+        </div>
+      </article>
+
+      <aside class="aside-stack">
+        <article class="panel">
+          <h2>系统消息</h2>
+          <pre id="systemLog" class="log"></pre>
+        </article>
+      </aside>
+    </section>
+  </main>
+  <script src="/static/common.js"></script>
+  <script src="/static/manage-knowledge.js"></script>
+</body>
+</html>

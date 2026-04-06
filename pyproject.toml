@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "codegraphrag"
+version = "0.1.0"
+description = "MVP platform for code GraphRAG and vector search"
+requires-python = ">=3.10"
+dependencies = [
+  "fastapi>=0.116.0",
+  "uvicorn[standard]>=0.35.0",
+  "sqlalchemy>=2.0.36",
+  "pydantic>=2.11.0",
+  "pydantic-settings>=2.6.0",
+  "psycopg[binary]>=3.2.4",
+  "neo4j>=5.28.0",
+  "qdrant-client>=1.13.0",
+  "httpx>=0.28.0"
+]
+
+[project.optional-dependencies]
+dev = [
+  "alembic>=1.14.0",
+  "pytest>=8.3.4",
+  "pytest-asyncio>=0.25.0"
+]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]

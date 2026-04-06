@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GraphRAGX - 管理中心 / 项目管理</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="bg-glow bg-glow-a"></div>
+  <div class="bg-glow bg-glow-b"></div>
+  <main class="shell">
+    <header class="topbar panel">
+      <div class="brand-block">
+        <a class="brand" href="/">GraphRAGX</a>
+        <div class="brand-subtitle">Powered by Graph AI. RAG for Everything.</div>
+      </div>
+      <nav class="topnav">
+        <a href="/search">检索中心</a>
+        <a href="/scenarios/impact">业务场景</a>
+        <a class="is-active" href="/manage/projects">管理中心</a>
+      </nav>
+      <div class="actor-inline">
+        <label>Actor<input id="actorUser" value="alice" /></label>
+        <label>Role
+          <select id="actorRole">
+            <option value="admin">admin</option>
+            <option value="editor">editor</option>
+            <option value="viewer">viewer</option>
+          </select>
+        </label>
+      </div>
+    </header>
+
+    <section class="panel hero">
+      <p class="kicker">Management Center</p>
+      <h1>管理中心</h1>
+      <p class="sub">项目管理与同步运维分区承载，支持企业级扩展。</p>
+      <div class="subtabs">
+        <a class="chip is-active" href="/manage/projects">项目管理</a>
+        <a class="chip" href="/manage/sync">同步管理</a>
+        <a class="chip" href="/manage/knowledge">知识库管理</a>
+      </div>
+    </section>
+
+    <section class="workspace single-main">
+      <article class="panel">
+        <div class="toolbar">
+          <label>名称筛选<input id="nameFilter" placeholder="输入项目名关键字" /></label>
+          <label>SCM
+            <select id="scmFilter">
+              <option value="">全部</option>
+              <option value="github">github</option>
+              <option value="gitlab">gitlab</option>
+              <option value="local">local</option>
+            </select>
+          </label>
+          <label>创建时间
+            <select id="timeFilter">
+              <option value="">全部</option>
+              <option value="7">最近7天</option>
+              <option value="30">最近30天</option>
+              <option value="90">最近90天</option>
+            </select>
+          </label>
+          <button id="refreshProjectsBtn" class="btn ghost" type="button">刷新</button>
+        </div>
+
+        <form id="createProjectForm" class="stack">
+          <h2>新建项目</h2>
+          <label>项目名<input name="name" placeholder="my-service" required /></label>
+          <label>SCM
+            <select name="scm_provider">
+              <option value="github">github</option>
+              <option value="gitlab">gitlab</option>
+              <option value="local">local</option>
+            </select>
+          </label>
+          <label>仓库地址 / 本地路径
+            <input name="repo_url" placeholder="https://github.com/org/repo 或 D:\code\my-repo" required />
+          </label>
+          <label>默认分支<input name="default_branch" value="main" /></label>
+          <button id="createProjectBtn" class="btn" type="submit">创建项目</button>
+          <p id="createProjectMsg" class="message"></p>
+        </form>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>名称</th>
+                <th>SCM</th>
+                <th>分支</th>
+                <th>创建时间</th>
+                <th>同步状态</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="projectsBody"></tbody>
+          </table>
+        </div>
+      </article>
+
+      <aside class="panel detail-drawer">
+        <h2>项目详情</h2>
+        <p class="sub">选择项目查看详情并更新信息。</p>
+        <form id="projectDetailForm" class="stack">
+          <label>项目 ID<input name="id" readonly /></label>
+          <label>项目名<input name="name" /></label>
+          <label>SCM<input name="scm_provider" readonly /></label>
+          <label>Repo / Path<input name="repo_url" /></label>
+          <label>默认分支<input name="default_branch" /></label>
+          <label>Project Instructions
+            <textarea name="instructions" rows="5" placeholder="例如：回答要简洁；优先引用 runbook；输出中文。"></textarea>
+          </label>
+          <button id="saveProjectBtn" class="btn" type="submit">保存修改</button>
+          <p id="projectDetailMsg" class="message"></p>
+        </form>
+        <h3>同步状态</h3>
+        <div id="syncStatusBox" class="meta-list"></div>
+        <h3>成员角色</h3>
+        <div id="memberRoleBox" class="meta-list"></div>
+      </aside>
+    </section>
+
+    <section class="panel">
+      <h2>系统消息</h2>
+      <pre id="systemLog" class="log"></pre>
+    </section>
+  </main>
+  <script src="/static/common.js"></script>
+  <script src="/static/manage-projects.js"></script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GraphRAGX - Smart Chat</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css" />
+  <link rel="stylesheet" href="/static/chat-home.css" />
+</head>
+<body class="chatgpt-page">
+  <main class="cgpt-app">
+    <aside class="cgpt-sidebar">
+      <div class="cgpt-brand-row">
+        <a class="brand" href="/">GraphRAGX</a>
+        <div class="cgpt-brand-subtitle">Powered by Graph AI. RAG for Everything.</div>
+      </div>
+      <button id="newSessionBtn" class="cgpt-new-chat-btn" type="button">+ New Session</button>
+      <div class="cgpt-list-section project-tree-section">
+        <div class="cgpt-list-title">Projects</div>
+        <div id="projectList" class="chat-project-list"></div>
+      </div>
+
+      <div class="cgpt-nav-group">
+        <a class="cgpt-nav-item is-active" href="/">Smart Chat</a>
+        <a class="cgpt-nav-item" href="/search">Search Hub</a>
+        <a class="cgpt-nav-item" href="/scenarios/impact">Scenarios</a>
+        <a class="cgpt-nav-item" href="/manage/projects">Manage</a>
+      </div>
+
+      <div class="cgpt-actor-box">
+        <label>User<input id="actorUser" value="alice" /></label>
+        <label>Role
+          <select id="actorRole">
+            <option value="admin">admin</option>
+            <option value="editor">editor</option>
+            <option value="viewer">viewer</option>
+          </select>
+        </label>
+      </div>
+    </aside>
+
+    <section class="cgpt-main">
+      <header class="cgpt-main-head">
+        <h1>Smart Chat</h1>
+        <div class="row-actions">
+          <button id="toggleEvidenceBtn" class="small-btn" type="button">Evidence</button>
+          <button id="saveSessionSettingsBtn" class="small-btn" type="button">Save Settings</button>
+          <button id="renameSessionBtn" class="small-btn" type="button">Rename</button>
+        </div>
+      </header>
+
+      <div class="cgpt-settings">
+        <label>Default Project
+          <select id="sessionDefaultProject"></select>
+        </label>
+        <label>Scope
+          <select id="chatKnowledgeScope">
+            <option value="auto">auto</option>
+            <option value="code">code</option>
+            <option value="knowledge">knowledge</option>
+            <option value="hybrid">hybrid</option>
+          </select>
+        </label>
+        <label>Top K
+          <input id="chatTopK" type="number" min="1" max="50" value="8" />
+        </label>
+      </div>
+
+      <div id="messageList" class="chat-message-list"></div>
+
+      <form id="chatForm" class="cgpt-composer">
+        <div class="cgpt-composer-input-wrap">
+          <textarea id="chatInput" rows="4" placeholder="Message GraphRAGX"></textarea>
+          <button id="sendMessageBtn" class="cgpt-send-btn" type="submit">Send</button>
+        </div>
+      </form>
+
+      <details class="cgpt-log">
+        <summary>System Logs</summary>
+        <pre id="systemLog" class="log"></pre>
+      </details>
+    </section>
+
+    <aside id="evidencePanel" class="cgpt-evidence-drawer">
+      <div class="cgpt-evidence-header">
+        <h2>Evidence Panel</h2>
+        <div class="evidence-header-actions">
+          <div class="evidence-mode-switch" role="group" aria-label="Evidence display mode">
+            <button id="evidenceModeSimple" class="small-btn evidence-mode-btn is-active" data-mode="simple" type="button">Simple</button>
+            <button id="evidenceModeExpert" class="small-btn evidence-mode-btn" data-mode="expert" type="button">Expert</button>
+          </div>
+          <button id="toggleEvidenceBtnInner" class="small-btn" type="button">Close</button>
+        </div>
+      </div>
+      <p id="evidenceSummary" class="evidence-summary">Select an assistant message to inspect retrieval evidence.</p>
+      <div class="evidence-tabs">
+        <button class="small-btn evidence-tab is-active" data-tab="overview" type="button">Overview</button>
+        <button class="small-btn evidence-tab" data-tab="recall" type="button">Recall Browser</button>
+        <button class="small-btn evidence-tab" data-tab="adopted" type="button">Adopted Evidence</button>
+        <button class="small-btn evidence-tab" data-tab="citations" type="button">Citations</button>
+        <button class="small-btn evidence-tab" data-tab="debug" type="button">Debug</button>
+      </div>
+      <div id="evidenceOverview" class="sources"></div>
+      <div id="evidenceRecall" class="sources" hidden></div>
+      <div id="evidenceAdopted" class="sources" hidden></div>
+      <div id="evidenceCitations" class="sources" hidden></div>
+      <pre id="evidenceMeta" class="log" hidden>No retrieval metadata</pre>
+    </aside>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+  <script src="/static/common.js"></script>
+  <script src="/static/chat-home.js"></script>
+</body>
+</html>

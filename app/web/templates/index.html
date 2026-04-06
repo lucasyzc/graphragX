@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GraphRAGX - 检索中心</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="bg-glow bg-glow-a"></div>
+  <div class="bg-glow bg-glow-b"></div>
+  <main class="shell">
+    <header class="topbar panel">
+      <div class="brand-block">
+        <a class="brand" href="/">GraphRAGX</a>
+        <div class="brand-subtitle">Powered by Graph AI. RAG for Everything.</div>
+      </div>
+      <nav class="topnav">
+        <a class="is-active" href="/search">检索中心</a>
+        <a href="/scenarios/impact">业务场景</a>
+        <a href="/manage/projects">管理中心</a>
+      </nav>
+      <div class="actor-inline">
+        <label>Actor<input id="actorUser" value="alice" /></label>
+        <label>Role
+          <select id="actorRole">
+            <option value="admin">admin</option>
+            <option value="editor">editor</option>
+            <option value="viewer">viewer</option>
+          </select>
+        </label>
+      </div>
+    </header>
+
+    <section class="panel hero">
+      <p class="kicker">Search First Workspace</p>
+      <h1>检索中心</h1>
+      <p class="sub">从代码检索出发，串联问答与影响分析场景。</p>
+      <form id="queryForm" class="query-row">
+        <div class="project-first-row">
+          <label>项目（先选择）
+            <select id="queryProjectId" required></select>
+          </label>
+          <label>检索范围
+            <select name="knowledge_scope" id="queryKnowledgeScope">
+              <option value="auto">auto</option>
+              <option value="code">code</option>
+              <option value="knowledge">knowledge</option>
+              <option value="hybrid">hybrid</option>
+            </select>
+          </label>
+          <label>Top K
+            <input name="top_k" type="number" min="1" max="50" value="8" />
+          </label>
+          <button id="refreshProjectsBtn" class="btn ghost" type="button">重新加载项目</button>
+        </div>
+        <p id="projectLoadMsg" class="message"></p>
+        <div id="projectEmptyActions" class="row-actions" hidden>
+          <a class="btn ghost" href="/manage/projects">去管理中心创建项目</a>
+        </div>
+        <label>问题（确认项目后输入）
+          <textarea
+            id="queryQuestion"
+            name="question"
+            rows="3"
+            placeholder="先选择项目后再输入，例如：支付模块里的重试逻辑在哪里，异常分支如何处理？"
+            required
+          ></textarea>
+        </label>
+        <div class="query-actions">
+          <button id="querySubmitBtn" class="btn" type="submit">检索</button>
+        </div>
+      </form>
+      <div class="quick-actions">
+        <a class="chip is-active" href="/search">代码问答</a>
+        <a class="chip" id="impactShortcut" href="/scenarios/impact">变更影响分析</a>
+      </div>
+    </section>
+
+    <section class="workspace">
+      <article class="panel result-panel">
+        <div class="section-head">
+          <h2>检索答案</h2>
+          <button id="toImpactBtn" class="btn ghost" type="button">带入影响分析</button>
+        </div>
+        <p id="llmStatusBox" class="message">LLM 状态：检查中...</p>
+        <pre id="answerBox" class="answer">等待检索...</pre>
+        <p id="answerModeHint" class="message">回答模式：等待检索...</p>
+        <h3>检索元信息</h3>
+        <pre id="retrievalMetaBox" class="log">等待检索...</pre>
+        <h3>来源片段</h3>
+        <div id="sourcesBox" class="sources"></div>
+        <h3>引用</h3>
+        <div id="citationsBox" class="sources"></div>
+        <h3>上下文预览</h3>
+        <div id="contextsBox" class="sources"></div>
+      </article>
+
+      <aside class="aside-stack">
+        <article class="panel">
+          <div class="section-head">
+            <h2>当前项目状态</h2>
+            <button id="refreshStatusBtn" class="btn ghost" type="button">刷新</button>
+          </div>
+          <div id="projectStatusBox" class="meta-list"></div>
+        </article>
+        <article class="panel">
+          <div class="section-head">
+            <h2>依赖健康</h2>
+            <button id="checkDepsBtn" class="btn ghost" type="button">检查</button>
+          </div>
+          <pre id="dependenciesBox" class="log">等待检查...</pre>
+        </article>
+        <article class="panel">
+          <h2>最近检索历史</h2>
+          <div id="historyList" class="history-list"></div>
+        </article>
+      </aside>
+    </section>
+
+    <section class="panel">
+      <h2>系统消息</h2>
+      <pre id="systemLog" class="log"></pre>
+    </section>
+  </main>
+  <script src="/static/common.js"></script>
+  <script src="/static/search.js"></script>
+</body>
+</html>
